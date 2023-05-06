@@ -43,12 +43,12 @@ public class CommandEncoder {
     public void sendCommand(Object command) {
         System.out.println(command);
         boolean var2 = command instanceof IConnectionInitCommand;
-        ProtocolBuffer var4 = new ProtocolBuffer(ByteBuffer.allocate(4096), new OptionalMap());
-        this.commandCodec.encode(var4, command);
-        var4.flip();
+        ProtocolBuffer buffer = new ProtocolBuffer(ByteBuffer.allocate(4096), new OptionalMap());
+        this.commandCodec.encode(buffer, command);
+        buffer.flip();
         ByteBuffer var3 = ByteBuffer.allocate(4096);
-        Protocol.INSTANCE.wrapPacket(var3, var4);
-        var4.clear();
+        Protocol.INSTANCE.wrapPacket(var3, buffer);
+        buffer.clear();
         ByteBuffer var5 = ByteBuffer.allocate(4096);
         IProtectionContext protectionContext;
         if(var2) {
