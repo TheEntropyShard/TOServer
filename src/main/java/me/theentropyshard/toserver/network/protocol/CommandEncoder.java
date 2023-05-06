@@ -1,11 +1,14 @@
 package me.theentropyshard.toserver.network.protocol;
 
 import me.theentropyshard.toserver.network.command.IConnectionInitCommand;
+import me.theentropyshard.toserver.network.command.control.client.HashRequestCommand;
 import me.theentropyshard.toserver.network.protocol.impl.Protocol;
 import me.theentropyshard.toserver.network.protocol.protection.IProtectionContext;
 import me.theentropyshard.toserver.network.protocol.protection.PrimitiveProtectionContext;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -31,7 +34,12 @@ public class CommandEncoder {
 
         // Unwrap packet
         ProtocolBuffer protocolBuffer = new ProtocolBuffer(ByteBuffer.allocate(16384), new OptionalMap());
-        Protocol.INSTANCE.unwrapPacket(decryptedData, protocolBuffer);
+        boolean b = Protocol.INSTANCE.unwrapPacket(decryptedData, protocolBuffer);
+        if(b) {
+            System.out.println("Unwrapped packet");
+        } else {
+            System.out.println("Could not unwrap packet");
+        }
 
         // Decode command
         Object decodedCommand = this.commandCodec.decode(protocolBuffer);

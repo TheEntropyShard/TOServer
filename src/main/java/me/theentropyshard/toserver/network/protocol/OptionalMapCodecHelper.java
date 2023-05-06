@@ -24,7 +24,6 @@ public enum OptionalMapCodecHelper {
         int loc8 = 0;
         int loc9 = 0;
         int loc3 = map.getSize();
-        System.out.println("dwdwd " + loc3);
         //var loc4:ByteArray = param1.getMap();
         byte[] loc4 = map.getMap();
         if(loc3 <= 5) {
@@ -123,8 +122,7 @@ public enum OptionalMapCodecHelper {
         }
     }
 
-    /*
-    public static void encodeNullMap(OptionalMap map, ByteBuffer data) {
+    /*public static void encodeNullMap(OptionalMap map, ByteBuffer data) {
         int loc4 = 0;
         int loc7 = 0;
         boolean loc8 = false;

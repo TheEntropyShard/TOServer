@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.Queue;
 
 public class PlayerSocket {
@@ -34,11 +35,12 @@ public class PlayerSocket {
     private void receiveData() {
         try {
             byte[] buffer = new byte[4096];
+            ByteBuffer data = ByteBuffer.allocate(4096);
 
             InputStream is = this.socket.getInputStream();
-            is.read(buffer);
+            int nRead = is.read(buffer);
 
-            ByteBuffer data = ByteBuffer.wrap(buffer);
+            data.put(buffer, 0, nRead);
             data.flip();
 
             this.commandEncoder.decodeAndExecuteCommandsFromServer(data);

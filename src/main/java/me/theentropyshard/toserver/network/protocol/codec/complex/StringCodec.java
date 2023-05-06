@@ -5,7 +5,6 @@ import me.theentropyshard.toserver.network.protocol.IProtocol;
 import me.theentropyshard.toserver.network.protocol.LengthCodecHelper;
 import me.theentropyshard.toserver.network.protocol.ProtocolBuffer;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
 public class StringCodec implements ICodec {

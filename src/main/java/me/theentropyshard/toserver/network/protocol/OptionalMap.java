@@ -62,8 +62,8 @@ public final class OptionalMap {
             ++this.readPosition;
             return bit;
         } else {
-            //throw new IndexOutOfBoundsException("Index out of bounds: " + this.readPosition);
-            return false;
+            throw new IndexOutOfBoundsException("Index out of bounds: " + this.readPosition);
+            //return false;
         }
     }
 

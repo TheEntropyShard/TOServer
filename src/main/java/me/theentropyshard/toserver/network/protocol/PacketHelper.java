@@ -17,9 +17,8 @@ public enum PacketHelper {
             byte var6 = var1.get();
             byte var5 = var1.get();
             var7 = var1.get();
-            int var4 = BIG_LENGTH_FLAG;
             var7 &= 255;
-            var2 = (byte) (((var2 ^ var4) << 24) + ((var6 & 255) << 16) + ((var5 & 255) << 8));
+            var2 = (byte) (((var2 ^ BIG_LENGTH_FLAG) << 24) + ((var6 & 255) << 16) + ((var5 & 255) << 8));
         } else {
             byte var8 = var1.get();
             var2 = (byte) ((var2 & 63) << 8);
@@ -70,19 +69,13 @@ public enum PacketHelper {
             }
 
             var1.position(var2);
-            return false;
-        } else {
-            return false;
         }
+        return false;
     }
 
     private static boolean isLongSize(int var1) {
         boolean var2;
-        if(var1 >= LONG_SIZE_DELIMITER) {
-            var2 = true;
-        } else {
-            var2 = false;
-        }
+        var2 = var1 >= LONG_SIZE_DELIMITER;
 
         return var2;
     }
@@ -111,7 +104,7 @@ public enum PacketHelper {
             int var3 = byteBuffer.limit();
             var4 += byteBuffer.position();
             OptionalMapCodecHelper.decodeNullMap(byteBuffer, buffer.getOptionalMap());
-            byteBuffer.flip();
+            //byteBuffer.flip();
             if(var4 <= var3) {
                 byteBuffer.limit(var4);
                 buffer.getBuffer().put(byteBuffer);

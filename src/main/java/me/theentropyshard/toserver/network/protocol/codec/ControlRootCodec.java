@@ -20,16 +20,8 @@ public class ControlRootCodec implements ICodec {
     public HashMap serverCommandCodecs = new HashMap();
 
     public Object decode(ProtocolBuffer var1) {
-
-        ICodec var3 = this.byteCodec;
-        ICodec var2 = var3;
-        if(var3 == null) {
-
-            var2 = null;
-        }
-
+        ICodec var2 = this.byteCodec;
         Object var4 = var2.decode(var1);
-        System.out.println("Command id " + var4);
         var2 = (ICodec) this.clientCommandCodecs.get(var4);
         if(var2 == null) {
             return null;
@@ -42,12 +34,7 @@ public class ControlRootCodec implements ICodec {
 
         if(var2 != null) {
             ControlCommand var5 = (ControlCommand) var2;
-            ICodec var4 = this.byteCodec;
-            ICodec var3 = var4;
-            if(var4 == null) {
-
-                var3 = null;
-            }
+            ICodec var3 = this.byteCodec;
 
             var3.encode(var1, var5.getId());
             if(this.serverCommandCodecs.containsKey(var5.getId())) {
@@ -57,31 +44,30 @@ public class ControlRootCodec implements ICodec {
                 }
 
             } else {
-                StringBuilder var6 = new StringBuilder();
-                var6.append("Command with id ");
-                var6.append(var5.getId());
-                var6.append(" unknown");
-                throw new RuntimeException(var6.toString());
+                String var6 = "Command with id " +
+                        var5.getId() +
+                        " unknown";
+                throw new RuntimeException(var6);
             }
         } else {
             throw new NullPointerException("null cannot be cast to non-null type alternativa.client.network.command.ControlCommand");
         }
     }
 
-    public void init(IProtocol var1) {
-        this.byteCodec = var1.getCodec(Byte.TYPE, false);
-        var1.registerCodec(new TypeCodecInfo(SpaceOpenedCommand.class, false), new SpaceOpenedCommandCodec());
+    public void init(IProtocol protocol) {
+        this.byteCodec = protocol.getCodec(Byte.TYPE, false);
+        protocol.registerCodec(new TypeCodecInfo(SpaceOpenedCommand.class, false), new SpaceOpenedCommandCodec());
         HashResponseCommandCodec var2 = new HashResponseCommandCodec();
-        var2.init(var1);
+        var2.init(protocol);
         this.serverCommandCodecs.put(ControlCommand.SV_HASH_RESPONSE, var2);
         OpenSpaceCommandCodec var3 = new OpenSpaceCommandCodec();
-        var3.init(var1);
+        var3.init(protocol);
         this.serverCommandCodecs.put(ControlCommand.SV_OPEN_SPACE, var3);
         HashRequestCommandCodec var4 = new HashRequestCommandCodec();
-        var4.init(var1);
+        var4.init(protocol);
         this.clientCommandCodecs.put(ControlCommand.CL_HASH_REQUEST, var4);
         LogCommandCodec var5 = new LogCommandCodec();
-        var5.init(var1);
+        var5.init(protocol);
         this.clientCommandCodecs.put(ControlCommand.CL_LOG, var5);
     }
 }

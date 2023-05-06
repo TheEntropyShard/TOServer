@@ -22,7 +22,6 @@ public final class ProtocolBuffer {
 
     public void flip() {
         this.buffer.flip();
-        this.buffer.flip();
         this.optionalMap.flip();
     }
 

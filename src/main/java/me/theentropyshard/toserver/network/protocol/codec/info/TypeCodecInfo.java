@@ -16,16 +16,25 @@ public class TypeCodecInfo extends CodecInfo {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if(this == o) return true;
-        if(o == null || getClass() != o.getClass()) return false;
-        TypeCodecInfo that = (TypeCodecInfo) o;
-        return Objects.equals(type, that.type);
+    public boolean equals(Object var1) {
+        if (this == var1) {
+            return true;
+        } else if (!(var1 instanceof TypeCodecInfo)) {
+            return false;
+        } else {
+            Class var2 = this.type;
+            TypeCodecInfo var3 = (TypeCodecInfo)var1;
+            if (!Objects.equals(var2, var3.type)) {
+                return false;
+            } else {
+                return this.isOptional() == var3.isOptional();
+            }
+        }
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(type);
+        return this.type.hashCode() * 31 + Boolean.hashCode(this.isOptional());
     }
 
     public final Class getType() {

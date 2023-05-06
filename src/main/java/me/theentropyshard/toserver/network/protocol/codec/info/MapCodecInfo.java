@@ -2,6 +2,8 @@ package me.theentropyshard.toserver.network.protocol.codec.info;
 
 import me.theentropyshard.toserver.network.protocol.ICodecInfo;
 
+import java.util.Objects;
+
 public class MapCodecInfo extends CodecInfo {
     private ICodecInfo keyCodecInfo;
     private ICodecInfo valueCodecInfo;
@@ -15,6 +17,30 @@ public class MapCodecInfo extends CodecInfo {
     @Override
     public CodecInfo copy(boolean var1) {
         return new MapCodecInfo(this.keyCodecInfo, this.valueCodecInfo, var1);
+    }
+
+    @Override
+    public boolean equals(Object var1) {
+        if(this == var1) {
+            return true;
+        } else if(!(var1 instanceof MapCodecInfo)) {
+            return false;
+        } else {
+            ICodecInfo var2 = this.keyCodecInfo;
+            MapCodecInfo var3 = (MapCodecInfo) var1;
+            if(!Objects.equals(var2, var3.keyCodecInfo)) {
+                return false;
+            } else if(!Objects.equals(this.valueCodecInfo, var3.valueCodecInfo)) {
+                return false;
+            } else {
+                return this.isOptional() == var3.isOptional();
+            }
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return (this.keyCodecInfo.hashCode() * 31 + this.valueCodecInfo.hashCode()) * 31 + Boolean.hashCode(this.isOptional());
     }
 
     public final ICodecInfo getKeyCodecInfo() {
