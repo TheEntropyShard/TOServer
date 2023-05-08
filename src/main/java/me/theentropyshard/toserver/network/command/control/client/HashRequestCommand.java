@@ -5,7 +5,9 @@ import me.theentropyshard.toserver.network.PlayerSocket;
 import me.theentropyshard.toserver.network.command.ControlCommand;
 import me.theentropyshard.toserver.network.command.IClientControlCommand;
 import me.theentropyshard.toserver.network.command.control.server.HashResponseCommand;
+import me.theentropyshard.toserver.network.command.control.server.OpenSpaceCommand;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Random;
@@ -22,11 +24,14 @@ public class HashRequestCommand extends ControlCommand implements IClientControl
 
     @Override
     public void execute(ControlChannelContext context) {
+        System.out.println(parameterNames);
+        System.out.println(parameterValues);
+
         Random random = new Random();
         byte[] hash = new byte[32];
         random.nextBytes(hash);
-        System.out.println("CALLED");
         PlayerSocket.encoder.sendCommand(new HashResponseCommand(ByteBuffer.wrap(hash), true));
+        PlayerSocket.encoder.sendCommand(new OpenSpaceCommand(0x5F691CCL));
     }
 
     public final ArrayList getParameterNames() {

@@ -12,9 +12,11 @@ public class HashResponseCommandCodec implements ICodec {
 
     private ICodec booleanCodec;
     private ICodec byteCodec;
+    private ICodec longCodec;
 
     public void init(IProtocol protocol) {
         this.byteCodec = protocol.getCodec(Byte.TYPE, false);
+        this.longCodec = protocol.getCodec(Long.TYPE, false);
         this.booleanCodec = protocol.getCodec(new TypeCodecInfo(Boolean.TYPE, false));
     }
 
@@ -29,5 +31,7 @@ public class HashResponseCommandCodec implements ICodec {
             this.byteCodec.encode(buffer, hash.get());
         }
         this.booleanCodec.encode(buffer, command.isChannelProtectionEnabled());
+//        this.byteCodec.encode(buffer, (byte) 0x20);
+//        this.longCodec.encode(buffer, 0x5F691CCL);
     }
 }
