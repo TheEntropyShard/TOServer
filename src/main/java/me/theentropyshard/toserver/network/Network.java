@@ -1,10 +1,11 @@
 package me.theentropyshard.toserver.network;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Network extends Thread {
     private static final int PORT = 1337;
@@ -16,7 +17,7 @@ public class Network extends Thread {
     private final List<PlayerSocket> players;
 
     public Network() {
-        this.players = new ArrayList<>();
+        this.players = new CopyOnWriteArrayList<>();
 
         try {
             this.serverSocket = new ServerSocket(Network.PORT);
@@ -33,6 +34,10 @@ public class Network extends Thread {
         try {
             while(true) {
                 Socket socket = this.serverSocket.accept();
+                InetAddress inetAddress = socket.getInetAddress();
+                System.out.println("Connection accepted: " + socket.getRemoteSocketAddress());
+
+
                 PlayerSocket playerSocket = new PlayerSocket(socket);
                 this.players.add(playerSocket);
             }

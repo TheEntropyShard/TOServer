@@ -12,6 +12,7 @@ import me.theentropyshard.toserver.network.protocol.IProtocol;
 import me.theentropyshard.toserver.network.protocol.ProtocolBuffer;
 import me.theentropyshard.toserver.network.protocol.codec.info.TypeCodecInfo;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class ControlRootCodec implements ICodec {
@@ -21,7 +22,9 @@ public class ControlRootCodec implements ICodec {
 
     public Object decode(ProtocolBuffer var1) {
         ICodec var2 = this.byteCodec;
-        Object var4 = var2.decode(var1);
+        Byte var4 = (Byte) var2.decode(var1);
+        System.out.println("Command id: " + var4);
+        System.out.println("Command data: " + Arrays.toString(var1.getBuffer().array()));
         var2 = (ICodec) this.clientCommandCodecs.get(var4);
         if(var2 == null) {
             return null;

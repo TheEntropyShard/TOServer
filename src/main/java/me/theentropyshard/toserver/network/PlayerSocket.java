@@ -16,14 +16,13 @@ import java.util.Arrays;
 import java.util.Queue;
 
 public class PlayerSocket {
-    private final Socket socket;
+    private Socket socket;
 
     public static CommandEncoder encoder;
     public static Socket sckt;
 
     private CommandHandler commandHandler;
     private CommandEncoder commandEncoder;
-    private boolean sendPolicyFile;
 
     public PlayerSocket(Socket socket) {
         sckt = this.socket = socket;
@@ -48,6 +47,8 @@ public class PlayerSocket {
             InputStream is = this.socket.getInputStream();
             int nRead = is.read(buffer);
 
+            System.out.println("Received data: " + Arrays.toString(buffer));
+
             if(nRead == -1) {
                 System.out.println("Client disconnected");
                 this.socket.close();
@@ -55,7 +56,10 @@ public class PlayerSocket {
             }
 
             if(new String(buffer, StandardCharsets.UTF_8).contains("policy-file-request")) {
-                this.sendPolicyFile = true;
+                OutputStream outputStream = this.socket.getOutputStream();
+                outputStream.write(Utils.POLICY_FILE, 0, Utils.POLICY_FILE.length);
+                outputStream.write(0);
+                outputStream.flush();
                 return;
             }
 
@@ -73,21 +77,12 @@ public class PlayerSocket {
         try {
 
             OutputStream os = this.socket.getOutputStream();
-
-            // For some reason this does not work
-            if(this.sendPolicyFile) {
-                os.write(Utils.POLICY_FILE);
-                os.flush();
-                this.sendPolicyFile = false;
-            }
-
             Queue commandsToServer = this.commandEncoder.getCommandsToServer();
 
             for(Object command : commandsToServer) {
                 ByteBuffer data = (ByteBuffer) command;
                 byte[] cmd = data.array();
                 cmd = Arrays.copyOfRange(cmd, 0, cmd[1] + 2);
-                //cmd[0] -= 2;
                 System.out.println("Sending command: " + Arrays.toString(cmd));
                 os.write(cmd);
                 os.flush();
@@ -100,5 +95,9 @@ public class PlayerSocket {
 
     public Socket getSocket() {
         return this.socket;
+    }
+
+    public void setSocket(Socket socket) {
+        this.socket = socket;
     }
 }

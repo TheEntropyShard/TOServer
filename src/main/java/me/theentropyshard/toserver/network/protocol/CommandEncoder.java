@@ -43,6 +43,7 @@ public class CommandEncoder {
 
         // Decode command
         Object decodedCommand = this.commandCodec.decode(protocolBuffer);
+        System.out.println("Command: " + decodedCommand);
 
         // Execute command
         this.commandHandler.executeCommand(decodedCommand);

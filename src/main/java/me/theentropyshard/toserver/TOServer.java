@@ -23,7 +23,13 @@ public final class TOServer {
         while(true) {
             List<PlayerSocket> players = this.network.getPlayers();
             for(PlayerSocket player : players) {
-                player.processNetwork();
+                if(player != null) {
+                    System.out.println("{}{}{}{}{}{ Processing player " + player);
+                    player.processNetwork();
+                    System.out.println("{}{}{}{}{}{ Processed player " + player);
+                } else {
+                    System.out.println("wtf");
+                }
             }
         }
     }
