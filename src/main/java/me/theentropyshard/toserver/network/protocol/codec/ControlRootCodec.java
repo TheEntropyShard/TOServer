@@ -1,6 +1,7 @@
 package me.theentropyshard.toserver.network.protocol.codec;
 
 import me.theentropyshard.toserver.network.command.ControlCommand;
+import me.theentropyshard.toserver.network.command.SpaceCommand;
 import me.theentropyshard.toserver.network.command.SpaceOpenedCommand;
 import me.theentropyshard.toserver.network.command.SpaceOpenedCommandCodec;
 import me.theentropyshard.toserver.network.command.control.client.HashRequestCommandCodec;
@@ -72,5 +73,8 @@ public class ControlRootCodec implements ICodec {
         LogCommandCodec var5 = new LogCommandCodec();
         var5.init(protocol);
         this.clientCommandCodecs.put(ControlCommand.CL_LOG, var5);
+        SpaceOpenedCommandCodec var6 = new SpaceOpenedCommandCodec();
+        var6.init(protocol);
+        this.clientCommandCodecs.put(var6, SpaceCommand.PRODUCE_HASH);
     }
 }

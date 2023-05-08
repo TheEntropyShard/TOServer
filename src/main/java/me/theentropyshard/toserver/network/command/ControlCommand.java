@@ -2,8 +2,9 @@ package me.theentropyshard.toserver.network.command;
 
 public class ControlCommand {
     public static final byte CL_HASH_REQUEST = 1;
-    public static final byte CL_LOG = 32;
     public static final byte SV_HASH_RESPONSE = 2;
+
+    public static final byte CL_LOG = 32;
     public static final byte SV_OPEN_SPACE = 32;
 
     public byte id;

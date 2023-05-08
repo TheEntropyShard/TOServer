@@ -7,6 +7,7 @@ import me.theentropyshard.toserver.network.protocol.ProtocolBuffer;
 import java.nio.ByteBuffer;
 
 public class SpaceOpenedCommandCodec implements ICodec {
+
     private ICodec idCodec;
 
     public void init(IProtocol protocol) {
